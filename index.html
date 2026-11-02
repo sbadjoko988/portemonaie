@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- Déclare que le document utilise la version HTML5 avec défilement fluide -->
+<html lang="fr" class="scroll-smooth">
+<head>
+    <!-- Encodage des caractères et configuration de l'affichage mobile responsive -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Carnet — Blog, Idées & Inspirations</title>
+    
+    <!-- Intégration de la police externe Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Liaison vers le fichier CSS externe autonome -->
+    <link rel="stylesheet" href="./pages/css/style.css">
+</head>
+<body class="bg-body text-body min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Container pour les notifications toast dynamique -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- En-tête de navigation principal avec effet de transparence -->
+    <header class="navbar">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo et Titre du Blogue -->
+            <a href="#accueil" class="group flex items-center gap-3 text-decoration-none">
+                <div class="logo-icon">
+                    C
+                </div>
+                <div>
+                    <span class="logo-title">Le Carnet</span>
+                    <span class="logo-subtitle">Idées & Récits</span>
+                </div>
+            </a>
+
+            <!-- Navigation Principale sur Desktop -->
+            <nav class="hidden md:flex items-center gap-8" aria-label="Navigation principale">
+                <a href="#accueil" class="nav-link active">Accueil</a>
+                <a href="#articles" class="nav-link">Articles</a>
+                <a href="#a-propos" class="nav-link">À propos</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <!-- Actions (Mode Sombre & Hamburger Mobile) -->
+            <div class="flex items-center gap-3">
+                <!-- Bouton Bascule Thème Sombre/Clair -->
+                <button id="theme-toggle" aria-label="Basculer le thème" class="btn-icon">
+                    <svg id="theme-icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <!-- Bouton Menu Hamburger pour Mobile -->
+                <button id="mobile-menu-btn" aria-label="Ouvrir le menu" class="btn-icon md:hidden">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Déroulant Mobile -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden">
+            <div class="flex flex-col gap-3 py-4 px-6">
+                <a href="#accueil" class="mobile-link active">Accueil</a>
+                <a href="#articles" class="mobile-link">Articles</a>
+                <a href="#a-propos" class="mobile-link">À propos</a>
+                <a href="#contact" class="mobile-link">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main id="accueil" class="flex-grow">
+        <!-- Section Hero Banner -->
+        <section class="hero-section">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <div class="badge-hero">
+                    <span class="badge-dot"></span>
+                    Nouveau numéro disponible
+                </div>
+                <h1 class="hero-title">
+                    Des idées, des découvertes et des <span class="gradient-text">histoires à partager</span>.
+                </h1>
+                <p class="hero-description">
+                    Un espace intimiste et moderne pour lire, apprendre et trouver l'inspiration au fil de nos réflexions quotidiennes.
+                </p>
+                
+                <!-- Barre de recherche interactive -->
+                <div class="search-box-container">
+                    <div class="search-icon">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Rechercher un article par mot-clé..." class="search-input">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Liste des Articles -->
+        <section id="articles" class="max-w-6xl mx-auto px-6 py-16">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+                <div>
+                    <h2 class="section-title">Articles récents</h2>
+                    <p class="section-subtitle">Explorez nos dernières publications soigneusement rédigées.</p>
+                </div>
+                <!-- Filtres de Catégories -->
+                <div class="flex items-center gap-2">
+                    <button class="category-filter btn-filter-active" data-category="all">Tous</button>
+                    <button class="category-filter btn-filter" data-category="lecture">Lecture</button>
+                    <button class="category-filter btn-filter" data-category="decouverte">Découverte</button>
+                </div>
+            </div>
+
+            <!-- Grille d'articles -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Carte Article 1 -->
+                <article class="article-card" data-category="lecture" data-title="Retrouver le plaisir de lire">
+                    <div class="article-content">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="tag tag-indigo">Lecture</span>
+                            <span class="read-time">4 min de lecture</span>
+                        </div>
+                        <h3 class="article-title">
+                            <a href="#article-lecture-modal" class="article-trigger">Retrouver le plaisir de lire</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Quelques habitudes simples et bienveillantes pour intégrer davantage de lecture à son quotidien surchargé.
+                        </p>
+                    </div>
+                    <div class="article-footer">
+                        <p class="article-date">Publié le <time datetime="2026-10-28">28 octobre 2026</time></p>
+                        <button class="read-more-btn">
+                            <span>Lire l'article</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Carte Article 2 -->
+                <article class="article-card" data-category="decouverte" data-title="Une balade pour changer d'air">
+                    <div class="article-content">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="tag tag-emerald">Découverte</span>
+                            <span class="read-time">3 min de lecture</span>
+                        </div>
+                        <h3 class="article-title">
+                            <a href="#article-balade-modal" class="article-trigger">Une balade pour changer d'air</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Une promenade attentive près de chez soi peut réserver de belles surprises et faire le plus grand bien à l'esprit.
+                        </p>
+                    </div>
+                    <div class="article-footer">
+                        <p class="article-date">Publié le <time datetime="2026-10-20">20 octobre 2026</time></p>
+                        <button class="read-more-btn">
+                            <span>Lire l'article</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Affichage si aucun résultat -->
+            <div id="no-results" class="no-results hidden">
+                <p>Aucun article ne correspond à votre recherche.</p>
+            </div>
+        </section>
+
+        <!-- Section Présentation / À Propos -->
+        <section id="a-propos" class="about-section">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <h2 class="section-title mb-6">À propos de ce carnet</h2>
+                <p class="about-text">
+                    Le Carnet est un blogue indépendant consacré aux idées du quotidien, à la culture, à la lecture et aux découvertes. Conçu avec simplicité et élégance, cet espace privilégie la clarté et le fond par rapport à l'éphémère.
+                </p>
+                <div class="about-tags">
+                    <span>✨ Indépendant</span>
+                    <span>•</span>
+                    <span>🌿 Inspirant</span>
+                    <span>•</span>
+                    <span>📖 Authentique</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bas de Page / Footer -->
+    <footer id="contact" class="footer">
+        <div class="max-w-6xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="footer-title">Restons en contact</h2>
+                    <p class="footer-description">
+                        Écrivez-nous directement à <a href="mailto:bonjour@lecarnet.example" class="footer-email-link">bonjour@lecarnet.example</a> ou inscrivez-vous à notre infolettre.
+                    </p>
+                    
+                    <!-- Formulaire Infolettre -->
+                    <form id="newsletter-form" class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Votre adresse courriel" required class="newsletter-input">
+                        <button type="submit" class="btn-primary">S'inscrire</button>
+                    </form>
+                </div>
+
+                <div class="flex flex-col md:items-end justify-center">
+                    <span class="footer-brand">Le Carnet</span>
+                    <p class="footer-copyright">&copy; 2026 Le Carnet. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Liaison du script JavaScript autonome à la fin du body -->
+    <script src="./pages/js/script.js"></script>
+</body>
+</html>
